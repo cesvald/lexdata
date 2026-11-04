@@ -106,12 +106,7 @@ export default function Home() {
 
             <div className="mt-8 max-w-4xl mx-auto bg-slate-950/80 rounded-2xl border border-cyan-500/40 p-6 sm:p-8 glow-cyan-lg backdrop-blur-xl">
               <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
-                <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-rose-500" />
-                  <span className="w-3 h-3 rounded-full bg-amber-500" />
-                  <span className="w-3 h-3 rounded-full bg-emerald-500" />
-                  <span className="ml-2 text-xs font-mono text-cyan-300">plataforma_lopdp_ecuador.app</span>
-                </div>
+                <span className="text-sm font-bold text-white">Qué incluye la plataforma</span>
                 <div className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 bg-cyan-950 px-3 py-1 rounded-full border border-cyan-800">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>Asistente Guiado Inteligente</span>
@@ -130,6 +125,13 @@ export default function Home() {
                   </div>
                 ))}
               </div>
+              <p className="mt-6 pt-4 border-t border-slate-800 text-xs text-slate-400 flex items-start gap-2 text-left">
+                <Info className="w-4 h-4 text-cyan-400 shrink-0" />
+                <span>
+                  <strong>Nota:</strong> Es una herramienta de apoyo. No constituye asesoría legal, no garantiza el
+                  cumplimiento normativo ni te exime de responsabilidad frente a la ley.
+                </span>
+              </p>
             </div>
           </div>
         </section>
@@ -250,16 +252,17 @@ export default function Home() {
                     <div className="text-right pt-8">
                       <span className="text-2xl font-black text-white">$300</span>
                       <span className="text-xs text-slate-400 font-mono"> / pago único</span>
+                      <div className="text-xs text-cyan-300 font-mono mt-1">+ $20 / mes de plataforma</div>
                     </div>
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-3">Consultoría + Aprobación DPO</h3>
                   <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                    Servicio guiado completo con revisión personalizada, consultoría dedicada y aprobación formal
-                    revisada por un DPO certificado.
+                    Incluye el uso de la plataforma ($20 al mes) más una consultoría puntual ($300, pago único)
+                    con revisión personalizada y aprobación de tus documentos por un DPO certificado.
                   </p>
                 </div>
                 <ul className="space-y-3 border-t border-slate-800 pt-5 text-xs text-slate-300 font-medium">
-                  {["Todo lo incluido en el plan de Autogestión", "Revisión personalizada y consultoría directa", "Aprobación respaldada por DPO certificado"].map((x) => (
+                  {["Uso de la plataforma de Autogestión ($20 / mes)", "Consultoría y revisión personalizada ($300, pago único)", "Aprobación respaldada por DPO certificado"].map((x) => (
                     <li key={x} className="flex items-center gap-2">
                       <CheckCircle className="w-4 h-4 text-sky-400" /> {x}
                     </li>
@@ -272,8 +275,8 @@ export default function Home() {
               <p className="text-xs text-slate-400 flex items-center justify-center gap-2">
                 <Info className="w-4 h-4 text-cyan-400 shrink-0" />
                 <span>
-                  <strong>Nota:</strong> Es una herramienta de apoyo. No constituye asesoría legal ni garantiza el
-                  cumplimiento normativo.
+                  <strong>Nota:</strong> Es una herramienta de apoyo. No constituye asesoría legal, no garantiza el
+                  cumplimiento normativo ni te exime de responsabilidad frente a la ley.
                 </span>
               </p>
             </div>
