@@ -88,6 +88,25 @@ describe("POST /api/lead", () => {
     expect(state.bindArgs).toHaveLength(0);
   });
 
+  it("acepta cada uno de los planes ofrecidos", async () => {
+    const planes = [
+      "Autogestión guiada",
+      "Revisión de documentos por DPO",
+      "DPO como servicio",
+      "Aún no sé",
+    ];
+    for (const interes of planes) {
+      const res = await POST(makeRequest({ ...validBody, interes }));
+      expect(res.status, interes).toBe(200);
+    }
+    expect(state.bindArgs).toHaveLength(planes.length);
+  });
+
+  it("rechaza el nombre antiguo del plan de DPO que ya no se ofrece", async () => {
+    const res = await POST(makeRequest({ ...validBody, interes: "Consultoría y aprobación por DPO" }));
+    expect(res.status).toBe(400);
+  });
+
   it("rechaza nombre vacío o solo espacios", async () => {
     const res = await POST(makeRequest({ ...validBody, nombre: "   " }));
     expect(res.status).toBe(400);

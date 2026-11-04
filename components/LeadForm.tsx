@@ -9,7 +9,8 @@ const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "";
 const SIZES = ["1-10", "11-50", "50+"];
 const PLANS = [
   { value: "Autogestión guiada", price: "$20 / mes", key: "auto" },
-  { value: "Consultoría y aprobación por DPO", price: "$300 único + $20 / mes", key: "dpo" },
+  { value: "Revisión de documentos por DPO", price: "$300 único + $20 / mes", key: "revision" },
+  { value: "DPO como servicio", price: "$500 / mes + $20 / mes", key: "dpo" },
   { value: "Aún no sé", price: "", key: "unknown" },
 ];
 

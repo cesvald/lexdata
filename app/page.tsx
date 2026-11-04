@@ -213,7 +213,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
               <div className="bg-slate-950/90 rounded-2xl p-8 hover:border-cyan-400 transition duration-300 flex flex-col justify-between tech-border-glow">
                 <div>
                   <div className="flex items-center justify-between mb-6">
@@ -242,7 +242,7 @@ export default function Home() {
 
               <div className="bg-slate-950/90 border border-slate-800 rounded-2xl p-8 hover:border-sky-500/40 transition duration-300 flex flex-col justify-between relative overflow-hidden">
                 <div className="absolute top-4 right-4 bg-sky-500/20 border border-sky-500/40 text-sky-300 text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">
-                  Servicio Completo
+                  Revisión puntual
                 </div>
                 <div>
                   <div className="flex items-center justify-between mb-6">
@@ -255,16 +255,46 @@ export default function Home() {
                       <div className="text-xs text-cyan-300 font-mono mt-1">+ $20 / mes de plataforma</div>
                     </div>
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-3">Consultoría + Aprobación DPO</h3>
+                  <h3 className="text-2xl font-bold text-white mb-3">Revisión de documentos por DPO</h3>
                   <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                    Incluye el uso de la plataforma ($20 al mes) más una consultoría puntual ($300, pago único)
-                    con revisión personalizada y aprobación de tus documentos por un DPO certificado.
+                    Incluye el uso de la plataforma ($20 al mes) más una revisión puntual de tus documentos por un
+                    DPO certificado ($300, pago único). No incluye la designación formal como DPO de tu empresa.
                   </p>
                 </div>
                 <ul className="space-y-3 border-t border-slate-800 pt-5 text-xs text-slate-300 font-medium">
-                  {["Uso de la plataforma de Autogestión ($20 / mes)", "Consultoría y revisión personalizada ($300, pago único)", "Aprobación respaldada por DPO certificado"].map((x) => (
+                  {["Uso de la plataforma de Autogestión ($20 / mes)", "Revisión puntual de tus documentos por un DPO certificado ($300, pago único)"].map((x) => (
                     <li key={x} className="flex items-center gap-2">
-                      <CheckCircle className="w-4 h-4 text-sky-400" /> {x}
+                      <CheckCircle className="w-4 h-4 text-sky-400 shrink-0" /> {x}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="bg-slate-950/90 border border-slate-800 rounded-2xl p-8 hover:border-emerald-500/40 transition duration-300 flex flex-col justify-between relative overflow-hidden">
+                <div className="absolute top-4 right-4 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">
+                  Servicio mensual
+                </div>
+                <div>
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-400 flex items-center justify-center">
+                      <Award className="w-6 h-6" />
+                    </div>
+                    <div className="text-right pt-8">
+                      <span className="text-2xl font-black text-white">$500</span>
+                      <span className="text-xs text-slate-400 font-mono"> / mes</span>
+                      <div className="text-xs text-cyan-300 font-mono mt-1">+ $20 / mes de plataforma</div>
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">DPO como servicio</h3>
+                  <p className="text-slate-300 text-sm leading-relaxed mb-6">
+                    Contratas a un Delegado de Protección de Datos certificado que asume formalmente el rol para tu
+                    empresa. La plataforma ($20 al mes) se cobra aparte.
+                  </p>
+                </div>
+                <ul className="space-y-3 border-t border-slate-800 pt-5 text-xs text-slate-300 font-medium">
+                  {["Designación formal como Delegado de Protección de Datos", "Punto de contacto con la SPDP y con los titulares", "Plataforma de Autogestión aparte ($20 / mes)"].map((x) => (
+                    <li key={x} className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" /> {x}
                     </li>
                   ))}
                 </ul>
