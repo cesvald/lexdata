@@ -61,12 +61,34 @@ export default function PrivacyButton({
                 de interés.
               </p>
               <p>
-                <strong>Derechos:</strong> Puedes ejercer tus derechos de acceso, rectificación y
-                eliminación escribiendo a{" "}
+                <strong>Conservación:</strong> Conservamos tus datos hasta que solicites su eliminación.
+              </p>
+              <p>
+                <strong>Transferencia internacional:</strong> Tus datos se almacenan y procesan con
+                proveedores de infraestructura ubicados en Estados Unidos (Cloudflare para la base de datos y
+                Resend para el correo). Al aceptar, autorizas esta transferencia.
+              </p>
+              <p>
+                <strong>Cookies:</strong> Este sitio no usa cookies de seguimiento ni publicidad. Los
+                servicios de seguridad de la infraestructura pueden usar cookies técnicas estrictamente
+                necesarias.
+              </p>
+              <p>
+                <strong>Derechos:</strong> Puedes solicitar acceso, rectificación, eliminación, oposición y
+                portabilidad de tus datos escribiendo a{" "}
                 <a className="underline text-cyan-400" href="mailto:contacto@dataprivo.com">
                   contacto@dataprivo.com
+                </a>{" "}
+                o desde la página{" "}
+                <a className="underline text-cyan-400" href="/eliminar-datos">
+                  Eliminar mis datos
                 </a>
-                .
+                . Si consideras que tus derechos no fueron atendidos, puedes presentar un reclamo ante la
+                Superintendencia de Protección de Datos Personales.
+              </p>
+              <p>
+                <strong>Carácter voluntario:</strong> Entregar estos datos es voluntario. Sin ellos no podemos
+                enviarte la información de acceso anticipado.
               </p>
             </div>
             <button
