@@ -9,6 +9,13 @@
     "binding": "ASSETS"
   },
   "observability": { "enabled": true },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "dataprivo-leads",
+      "database_id": "8b044e6e-2341-4bbf-942e-dbeaba66e0a1"
+    }
+  ],
   "vars": {
     "LEAD_TO_EMAIL": "valderramago@gmail.com",
     "LEAD_FROM_EMAIL": "DataPrivo <onboarding@resend.dev>"
