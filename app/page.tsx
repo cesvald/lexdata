@@ -227,12 +227,17 @@ export default function Home() {
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-3">Autogestión guiada</h3>
                   <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                    Políticas de privacidad, registro de tratamientos, avisos legales y checklist de cumplimiento,
-                    con una guía paso a paso.
+                    Documentos personalizados para tu empresa, a partir de tus propias respuestas. Tú decides si los
+                    usas, los ajustas y los validas con un experto legal.
                   </p>
                 </div>
                 <ul className="space-y-3 border-t border-slate-800 pt-5 text-xs text-slate-300 font-medium">
-                  {["Plantillas adaptadas a la LOPDP ecuatoriana", "Exportación fácil de documentos", "Actualizaciones normativas continuas"].map((x) => (
+                  {[
+                    "Políticas de privacidad y avisos generados con los datos de tu empresa",
+                    "Registro de tratamientos a partir de tus respuestas",
+                    "Checklist de tareas y acciones prioritarias",
+                    "Aviso cuando hay cambios normativos que requieren nuevas acciones",
+                  ].map((x) => (
                     <li key={x} className="flex items-center gap-2">
                       <CheckCircle className="w-4 h-4 text-cyan-400" /> {x}
                     </li>
