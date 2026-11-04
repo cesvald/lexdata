@@ -11,6 +11,7 @@ const PLANS = [
   { value: "Autogestión guiada", price: "$20 / mes", key: "auto" },
   { value: "Revisión de documentos por DPO", price: "$300 único + $20 / mes", key: "revision" },
   { value: "DPO como servicio", price: "$500 / mes + $20 / mes", key: "dpo" },
+  { value: "Evaluación gratuita", price: "Gratis", key: "free" },
   { value: "Aún no sé", price: "", key: "unknown" },
 ];
 

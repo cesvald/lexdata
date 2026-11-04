@@ -17,7 +17,7 @@ type Env = {
 };
 
 const SIZES = ["1-10", "11-50", "50+"];
-const PLANS = ["Autogestión guiada", "Revisión de documentos por DPO", "DPO como servicio", "Aún no sé"];
+const PLANS = ["Autogestión guiada", "Revisión de documentos por DPO", "DPO como servicio", "Evaluación gratuita", "Aún no sé"];
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const esc = (s: string) =>

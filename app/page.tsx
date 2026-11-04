@@ -17,6 +17,7 @@ import {
 import Quiz from "@/components/Quiz";
 import LeadForm from "@/components/LeadForm";
 import PrivacyButton from "@/components/PrivacyButton";
+import PlanCta from "@/components/PlanCta";
 
 export default function Home() {
   return (
@@ -213,7 +214,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
               <div className="bg-slate-950/90 rounded-2xl p-8 hover:border-cyan-400 transition duration-300 flex flex-col justify-between tech-border-glow">
                 <div>
                   <div className="flex items-center justify-between mb-6">
@@ -243,6 +244,7 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
+                <PlanCta plan="auto" label="Quiero este plan" />
               </div>
 
               <div className="bg-slate-950/90 border border-slate-800 rounded-2xl p-8 hover:border-sky-500/40 transition duration-300 flex flex-col justify-between relative overflow-hidden">
@@ -273,6 +275,7 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
+                <PlanCta plan="revision" label="Quiero este plan" />
               </div>
 
               <div className="bg-slate-950/90 border border-slate-800 rounded-2xl p-8 hover:border-emerald-500/40 transition duration-300 flex flex-col justify-between relative overflow-hidden">
@@ -303,6 +306,36 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
+                <PlanCta plan="dpo" label="Quiero este plan" />
+              </div>
+
+              <div className="bg-slate-950/90 border border-slate-800 rounded-2xl p-8 hover:border-amber-500/40 transition duration-300 flex flex-col justify-between relative overflow-hidden">
+                <div className="absolute top-4 right-4 bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">
+                  Próximamente
+                </div>
+                <div>
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-400 flex items-center justify-center">
+                      <Scale className="w-6 h-6" />
+                    </div>
+                    <div className="text-right pt-8">
+                      <span className="text-2xl font-black text-white">Gratis</span>
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-3">Evaluación de riesgo</h3>
+                  <p className="text-slate-300 text-sm leading-relaxed mb-6">
+                    Responde unas preguntas y conoce el nivel de riesgo de tu empresa, tu matriz por áreas y la
+                    modalidad que te conviene. Déjanos tu interés para recibir acceso cuando esté disponible.
+                  </p>
+                </div>
+                <ul className="space-y-3 border-t border-slate-800 pt-5 text-xs text-slate-300 font-medium">
+                  {["Nivel de riesgo general de tu empresa", "Matriz de riesgo por áreas", "Recomendación de modalidad: Autogestión o DPO"].map((x) => (
+                    <li key={x} className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-amber-400 shrink-0" /> {x}
+                    </li>
+                  ))}
+                </ul>
+                <PlanCta plan="free" label="Quiero acceso anticipado" />
               </div>
             </div>
 

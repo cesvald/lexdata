@@ -93,6 +93,7 @@ describe("POST /api/lead", () => {
       "Autogestión guiada",
       "Revisión de documentos por DPO",
       "DPO como servicio",
+      "Evaluación gratuita",
       "Aún no sé",
     ];
     for (const interes of planes) {
