@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #0f172a;
+  color: #f1f5f9;
+}
+
+.bg-tech-pattern {
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.08) 0%, transparent 60%),
+    radial-gradient(rgba(2, 132, 199, 0.12) 1px, transparent 1px);
+  background-size: 100% 100%, 28px 28px;
+}
+
+@keyframes dashMove {
+  to { stroke-dashoffset: -40; }
+}
+
+.hud-dash-line {
+  stroke-dasharray: 6, 6;
+  animation: dashMove 3s linear infinite;
+}
+
+.glow-cyan-lg { box-shadow: 0 0 50px -10px rgba(6, 182, 212, 0.35); }
+.tech-border-glow {
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  box-shadow: inset 0 0 15px rgba(6, 182, 212, 0.05);
+}

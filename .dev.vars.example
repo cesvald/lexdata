@@ -1,0 +1,3 @@
+# Copia este archivo a .dev.vars para desarrollo local (no se sube a git).
+# En producción: npx wrangler secret put RESEND_API_KEY
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxx
