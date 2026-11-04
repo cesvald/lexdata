@@ -48,7 +48,7 @@ export default function PrivacyButton({
             <div className="text-xs text-slate-300 space-y-3 leading-relaxed">
               <p>En cumplimiento de la LOPDP de Ecuador:</p>
               <p>
-                <strong>Responsable:</strong> Proyecto LOPDP Fácil Ecuador.{" "}
+                <strong>Responsable:</strong> Proyecto DataPrivo Ecuador.{" "}
                 {/* TODO: completar razón social / nombre legal, RUC y dirección */}
               </p>
               <p>
@@ -63,8 +63,8 @@ export default function PrivacyButton({
               <p>
                 <strong>Derechos:</strong> Puedes ejercer tus derechos de acceso, rectificación y
                 eliminación escribiendo a{" "}
-                <a className="underline text-cyan-400" href="mailto:contacto@lopdpfacil.ec">
-                  contacto@lopdpfacil.ec
+                <a className="underline text-cyan-400" href="mailto:contacto@dataprivo.com">
+                  contacto@dataprivo.com
                 </a>
                 .
               </p>

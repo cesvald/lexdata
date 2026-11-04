@@ -11,6 +11,6 @@
   "observability": { "enabled": true },
   "vars": {
     "LEAD_TO_EMAIL": "valderramago@gmail.com",
-    "LEAD_FROM_EMAIL": "LOPDP Fácil <onboarding@resend.dev>"
+    "LEAD_FROM_EMAIL": "DataPrivo <onboarding@resend.dev>"
   }
 }

@@ -52,7 +52,7 @@ export default function Home() {
             </div>
             <div>
               <span className="text-xl font-extrabold tracking-tight text-white">
-                LOPDP<span className="text-cyan-400">Fácil</span>
+                Data<span className="text-cyan-400">Privo</span>
               </span>
               <span className="block text-[10px] font-mono text-cyan-400/80 tracking-widest uppercase">
                 Ecuador LegalTech Platform
@@ -374,12 +374,12 @@ export default function Home() {
           <p className="max-w-2xl mx-auto">
             Servicio en desarrollo. No constituye asesoría legal. |{" "}
             <PrivacyButton className="underline hover:text-cyan-400">Política de Privacidad</PrivacyButton> |{" "}
-            <a href="mailto:contacto@lopdpfacil.ec" className="underline hover:text-cyan-400">
+            <a href="mailto:contacto@dataprivo.com" className="underline hover:text-cyan-400">
               Contacto
             </a>
           </p>
           <div className="pt-2 text-slate-500 text-[11px] font-mono">
-            © {new Date().getFullYear()} LOPDP Fácil Ecuador 🇪🇨. Todos los derechos reservados.
+            © {new Date().getFullYear()} DataPrivo Ecuador 🇪🇨. Todos los derechos reservados.
           </div>
         </div>
       </footer>

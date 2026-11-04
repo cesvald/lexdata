@@ -1,4 +1,4 @@
-# LOPDP Fácil — Next.js en Cloudflare Workers
+# DataPrivo — Next.js en Cloudflare Workers
 
 Landing + quiz DPO + formulario de leads que envía un correo a tu bandeja.
 Stack: Next.js 15 (App Router) + Tailwind 4 + OpenNext para Cloudflare.
@@ -14,7 +14,7 @@ API HTTP de **Resend** (que también ofrece SMTP, pero la API funciona en Worker
    dueño de la cuenta de Resend.
 3. Ajusta en `wrangler.jsonc` → `vars`:
    - `LEAD_TO_EMAIL`: donde recibes los leads.
-   - `LEAD_FROM_EMAIL`: remitente verificado, p. ej. `LOPDP Fácil <leads@tudominio.ec>`.
+   - `LEAD_FROM_EMAIL`: remitente verificado, p. ej. `DataPrivo <leads@tudominio.ec>`.
 
 ## 2. Desarrollo local
 
@@ -32,11 +32,11 @@ npx wrangler secret put RESEND_API_KEY   # pega la API key (no queda en el repo)
 npm run deploy
 ```
 
-Para tu dominio: Cloudflare → Workers & Pages → lopdp-facil → Settings → Domains & Routes.
+Para tu dominio: Cloudflare → Workers & Pages → lexdata → Settings → Domains & Routes.
 
 ## 4. Pendientes antes de lanzar
 
 - `NEXT_PUBLIC_WHATSAPP_NUMBER` (ej. `5939XXXXXXXX`) como variable de build para mostrar el botón de WhatsApp; si no se define, el botón se oculta.
 - Completar razón social, RUC y dirección en `components/PrivacyButton.tsx`.
-- Verificar el correo `contacto@lopdpfacil.ec`.
+- Verificar el correo `contacto@dataprivo.com`.
 - Respaldar con fuentes oficiales la sanción a LIGAPRO/FEF y el "1% del volumen de negocio".

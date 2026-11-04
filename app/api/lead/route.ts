@@ -67,7 +67,7 @@ export async function POST(req: Request) {
       from,
       to: [to],
       reply_to: email,
-      subject: `Nuevo lead LOPDP Fácil: ${nombre} (${interes})`,
+      subject: `Nuevo lead DataPrivo: ${nombre} (${interes})`,
       html,
       text,
     }),

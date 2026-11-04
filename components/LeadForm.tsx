@@ -197,7 +197,7 @@ export default function LeadForm() {
                 </p>
                 <a
                   href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-                    "Hola, registré mi empresa en LOPDP Fácil y puedo ayudarles con las 3 preguntas.",
+                    "Hola, registré mi empresa en DataPrivo y puedo ayudarles con las 3 preguntas.",
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
