@@ -1,3 +1,4 @@
+import TrackedLink from "@/components/TrackedLink";
 import {
   ArrowRight,
   Award,
@@ -91,13 +92,14 @@ export default function Home() {
                 tratamientos y sus avisos legales paso a paso. Súmate a la lista de acceso anticipado.
               </p>
               <div className="flex items-center justify-center mb-4">
-                <a
+                <TrackedLink
                   href="#registro"
+                  event="clic_cta_hero"
                   className="w-full sm:w-auto px-8 py-4 bg-sky-600 hover:bg-sky-500 text-white font-bold text-lg rounded-xl shadow-lg shadow-sky-600/20 transition duration-200 hover:-translate-y-0.5 flex items-center justify-center gap-3 group"
                 >
                   <span>Quiero acceso anticipado</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />
-                </a>
+                </TrackedLink>
               </div>
               <p className="text-xs sm:text-sm text-slate-400 font-medium flex items-center justify-center gap-2 mb-10">
                 <CheckCircle className="w-4 h-4 text-emerald-400" />

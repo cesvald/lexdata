@@ -1,5 +1,7 @@
 "use client";
 
+import { track } from "@/lib/analytics";
+
 // Botón de cada plan: preselecciona esa modalidad en el formulario de registro
 // (guarda el interés del usuario) y lleva al formulario.
 export default function PlanCta({
@@ -12,7 +14,10 @@ export default function PlanCta({
   return (
     <a
       href="#registro"
-      onClick={() => window.dispatchEvent(new CustomEvent("lopdp:plan", { detail: plan }))}
+      onClick={() => {
+        track("clic_plan", { plan });
+        window.dispatchEvent(new CustomEvent("lopdp:plan", { detail: plan }));
+      }}
       className="mt-6 block text-center bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm py-3 rounded-xl transition"
     >
       {label}

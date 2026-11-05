@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { CheckCircle2, Loader2, Lock, MessageCircle, X } from "lucide-react";
 import PrivacyButton from "./PrivacyButton";
+import { track } from "@/lib/analytics";
 
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "";
 
@@ -53,6 +54,7 @@ export default function LeadForm() {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || "No pudimos enviar tu registro.");
       form.reset();
+      track("generate_lead", { interes: String(fd.get("interes") ?? "") });
       setPlan("");
       setStatus("ok");
     } catch (err) {

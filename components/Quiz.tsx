@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { track } from "@/lib/analytics";
 import { ArrowDown, CheckCircle, ChevronRight, ShieldAlert } from "lucide-react";
 
 const QUESTIONS = [
@@ -38,6 +39,10 @@ export default function Quiz() {
   const needsDPO = answers.some(Boolean);
 
   function answer(v: boolean) {
+    track("respuesta_evaluacion", { pregunta: step + 1, respuesta: v ? "si" : "no" });
+    if (step + 1 === QUESTIONS.length) {
+      track("evaluacion_completa", { resultado: [...answers, v].some(Boolean) ? "dpo" : "auto" });
+    }
     setAnswers((a) => [...a, v]);
     setStep((s) => s + 1);
   }
