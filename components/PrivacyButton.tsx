@@ -76,6 +76,11 @@ export default function PrivacyButton({
                 seguridad, que son estrictamente necesarias.
               </p>
               <p>
+                <strong>Medición sin cookies:</strong> Usamos Cloudflare Web Analytics para contar visitas y páginas
+                vistas de forma agregada. Esta herramienta no usa cookies ni guarda datos que identifiquen a la
+                persona, por lo que no requiere tu consentimiento.
+              </p>
+              <p>
                 <strong>Derechos:</strong> Puedes solicitar acceso, rectificación, eliminación, oposición y
                 portabilidad de tus datos escribiendo a{" "}
                 <a className="underline text-cyan-400" href="mailto:contacto@dataprivo.com">
