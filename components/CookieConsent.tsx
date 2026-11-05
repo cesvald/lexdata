@@ -5,7 +5,7 @@ import PrivacyButton from "./PrivacyButton";
 
 // Google Tag Manager (y Google Analytics dentro de él) solo se carga si la persona acepta.
 // La decisión se guarda en el navegador para no volver a preguntar.
-const GTM_ID = "GTM-TH4GXLSP";
+const GTM_ID = "GTM-N4XDVR36";
 const KEY = "dp_cookies";
 
 function cargarGtm() {
