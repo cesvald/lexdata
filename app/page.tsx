@@ -445,6 +445,10 @@ export default function Home() {
           <p className="max-w-2xl mx-auto">
             Servicio en desarrollo. No constituye asesoría legal. |{" "}
             <PrivacyButton className="underline hover:text-cyan-400">Política de Privacidad</PrivacyButton> |{" "}
+            <a href="/preguntas-frecuentes" className="underline hover:text-cyan-400">
+              Preguntas frecuentes
+            </a>{" "}
+            |{" "}
             <a href="/eliminar-datos" className="underline hover:text-cyan-400">
               Eliminar mis datos
             </a>{" "}

@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { SITE_URL } from "@/lib/site";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Cumplimiento LOPDP Ecuador | Plataforma de Protección de Datos",
+  metadataBase: new URL(SITE_URL),
+  title: "DataPrivo | Protección de datos para pymes en Ecuador",
   description:
-    "Herramienta guiada para que tu pyme genere sus políticas, registro de tratamientos y avisos legales conforme a la LOPDP de Ecuador.",
+    "Evalúa el riesgo de tu pyme frente a la LOPDP y recibe documentos personalizados para organizar tu cumplimiento.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
