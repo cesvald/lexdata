@@ -65,13 +65,15 @@ export default function PrivacyButton({
               </p>
               <p>
                 <strong>Transferencia internacional:</strong> Tus datos se almacenan y procesan con
-                proveedores de infraestructura ubicados en Estados Unidos (Cloudflare para la base de datos y
-                Resend para el correo). Al aceptar, autorizas esta transferencia.
+                proveedores ubicados en Estados Unidos: Cloudflare (base de datos y alojamiento), Resend (correo)
+                y Google (medición de uso, solo si aceptas las cookies). Al enviar el formulario o aceptar las
+                cookies, autorizas esta transferencia.
               </p>
               <p>
-                <strong>Cookies:</strong> Este sitio no usa cookies de seguimiento ni publicidad. Los
-                servicios de seguridad de la infraestructura pueden usar cookies técnicas estrictamente
-                necesarias.
+                <strong>Cookies:</strong> Usamos cookies de medición de Google Tag Manager y Google Analytics solo si
+                las aceptas en el aviso de cookies. Si no las aceptas, no se cargan. Puedes cambiar tu decisión
+                borrando los datos del sitio en tu navegador. La infraestructura puede usar cookies técnicas de
+                seguridad, que son estrictamente necesarias.
               </p>
               <p>
                 <strong>Derechos:</strong> Puedes solicitar acceso, rectificación, eliminación, oposición y
