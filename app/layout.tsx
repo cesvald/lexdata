@@ -8,9 +8,18 @@ const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains", 
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "DataPrivo | Protección de datos para pymes en Ecuador",
+  title: "DataPrivo - Protección de datos personales para pymes en Ecuador",
   description:
-    "Evalúa el riesgo de tu pyme frente a la LOPDP y recibe documentos personalizados para organizar tu cumplimiento.",
+    "Evalúa gratis el riesgo de tu pyme frente a la LOPDP Ecuador. Recibe políticas de privacidad y registro de tratamientos personalizados, y conoce si necesitas un DPO.",
+  keywords: [
+    "LOPDP Ecuador",
+    "protección de datos personales Ecuador",
+    "políticas de privacidad Ecuador",
+    "registro de tratamientos",
+    "DPO Ecuador",
+    "delegado de protección de datos Ecuador",
+    "pymes Ecuador",
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
