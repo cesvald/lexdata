@@ -87,7 +87,7 @@ export default function LeadForm() {
 
         <div>
           <label htmlFor="empresa" className="block text-sm font-bold text-slate-200 mb-2">
-            Nombre de la empresa *
+            Empresa o negocio *
           </label>
           <input id="empresa" name="empresa" required maxLength={150} placeholder="Nombre comercial o razón social" className={input} />
         </div>
