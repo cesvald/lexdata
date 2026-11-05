@@ -10,7 +10,8 @@ CREATE TABLE IF NOT EXISTS leads (
   interes TEXT NOT NULL,
   consentimiento INTEGER NOT NULL DEFAULT 1,
   creado_en TEXT NOT NULL DEFAULT (datetime('now')),
-  anonimizado_en TEXT
+  anonimizado_en TEXT,
+  empresa TEXT
 );
 
 CREATE TABLE IF NOT EXISTS solicitudes_eliminacion (

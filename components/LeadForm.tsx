@@ -42,6 +42,7 @@ export default function LeadForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           nombre: fd.get("nombre"),
+          empresa: fd.get("empresa"),
           email: fd.get("email"),
           tamano: fd.get("tamano"),
           interes: fd.get("interes"),
@@ -79,9 +80,16 @@ export default function LeadForm() {
 
         <div>
           <label htmlFor="nombre" className="block text-sm font-bold text-slate-200 mb-2">
-            Nombre *
+            Nombre completo *
           </label>
-          <input id="nombre" name="nombre" required maxLength={100} placeholder="Tu nombre" className={input} />
+          <input id="nombre" name="nombre" required maxLength={100} placeholder="Tu nombre y apellido" className={input} />
+        </div>
+
+        <div>
+          <label htmlFor="empresa" className="block text-sm font-bold text-slate-200 mb-2">
+            Nombre de la empresa *
+          </label>
+          <input id="empresa" name="empresa" required maxLength={150} placeholder="Nombre comercial o razón social" className={input} />
         </div>
 
         <div>

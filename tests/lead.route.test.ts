@@ -15,6 +15,7 @@ import { POST } from "../app/api/lead/route";
 
 const validBody = {
   nombre: "Ana Pérez",
+  empresa: "Panadería Los Andes",
   email: "ana@empresa.ec",
   tamano: "11-50",
   interes: "Autogestión guiada",
@@ -62,7 +63,13 @@ describe("POST /api/lead", () => {
     expect(state.bindArgs).toHaveLength(1);
     const [sql, ...args] = state.bindArgs[0];
     expect(String(sql)).toContain("INSERT INTO leads");
-    expect(args).toEqual(["Ana Pérez", "ana@empresa.ec", "11-50", "Autogestión guiada"]);
+    expect(args).toEqual(["Ana Pérez", "Panadería Los Andes", "ana@empresa.ec", "11-50", "Autogestión guiada"]);
+  });
+
+  it("rechaza un registro sin nombre de empresa", async () => {
+    const res = await POST(makeRequest({ ...validBody, empresa: "   " }));
+    expect(res.status).toBe(400);
+    expect(state.bindArgs).toHaveLength(0);
   });
 
   it("rechaza un correo inválido sin guardar nada", async () => {
