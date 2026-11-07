@@ -7,9 +7,9 @@ import PrivacyButton from "./PrivacyButton";
 // La decisión se guarda en el navegador para no volver a preguntar.
 const GTM_ID = "GTM-N4XDVR36";
 const KEY = "dp_cookies";
-// El modal aparece al bajar la mitad de la página o tras este tiempo (ms) en la web.
-const TIEMPO_MOSTRAR_MS = 45000;
-const PROFUNDIDAD_MOSTRAR = 0.5;
+// Si no decide tras bajar la mitad de la página o tras este tiempo (ms), el aviso pasa a ser obligatorio.
+const TIEMPO_OBLIGATORIO_MS = 45000;
+const PROFUNDIDAD_OBLIGATORIO = 0.5;
 
 function cargarGtm() {
   if (document.getElementById("gtm-script")) return;
@@ -25,7 +25,8 @@ function cargarGtm() {
 
 export default function CookieConsent() {
   const [estado, setEstado] = useState<"cargando" | "pendiente" | "aceptado" | "rechazado">("cargando");
-  const [visible, setVisible] = useState(false);
+  // Pendiente: el aviso aparece en la esquina. Obligatorio: pasa a modal que bloquea la página.
+  const [obligatorio, setObligatorio] = useState(false);
 
   useEffect(() => {
     let guardado: string | null = null;
@@ -44,14 +45,14 @@ export default function CookieConsent() {
     }
   }, []);
 
-  // Mostrar el modal tras scroll considerable o tiempo en la página, solo si aún no decidió.
+  // Si la persona no decide tras scroll considerable o tiempo en la página, el aviso se vuelve obligatorio.
   useEffect(() => {
     if (estado !== "pendiente") return;
-    const mostrar = () => setVisible(true);
-    const timer = window.setTimeout(mostrar, TIEMPO_MOSTRAR_MS);
+    const volverObligatorio = () => setObligatorio(true);
+    const timer = window.setTimeout(volverObligatorio, TIEMPO_OBLIGATORIO_MS);
     const onScroll = () => {
       const max = document.documentElement.scrollHeight - window.innerHeight;
-      if (max > 0 && window.scrollY / max >= PROFUNDIDAD_MOSTRAR) mostrar();
+      if (max > 0 && window.scrollY / max >= PROFUNDIDAD_OBLIGATORIO) volverObligatorio();
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
@@ -60,15 +61,15 @@ export default function CookieConsent() {
     };
   }, [estado]);
 
-  // Mientras el modal está abierto, la página no se desplaza detrás.
+  // Mientras el aviso es obligatorio, la página no se desplaza detrás.
   useEffect(() => {
-    if (!visible || estado !== "pendiente") return;
+    if (!obligatorio || estado !== "pendiente") return;
     const previo = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = previo;
     };
-  }, [visible, estado]);
+  }, [obligatorio, estado]);
 
   function decidir(valor: "aceptado" | "rechazado") {
     try {
@@ -77,11 +78,47 @@ export default function CookieConsent() {
       // Sin almacenamiento, la decisión dura solo esta visita.
     }
     if (valor === "aceptado") cargarGtm();
-    setVisible(false);
+    setObligatorio(false);
     setEstado(valor);
   }
 
-  if (estado !== "pendiente" || !visible) return null;
+  if (estado !== "pendiente") return null;
+
+  const botones = (
+    <div className="flex gap-3">
+      <button
+        type="button"
+        onClick={() => decidir("rechazado")}
+        className="flex-1 py-2.5 bg-slate-800 border border-slate-600 hover:bg-slate-700 text-white font-semibold text-sm rounded-xl transition"
+      >
+        Rechazar
+      </button>
+      <button
+        type="button"
+        onClick={() => decidir("aceptado")}
+        className="flex-1 py-2.5 bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm rounded-xl transition"
+      >
+        Aceptar
+      </button>
+    </div>
+  );
+
+  if (!obligatorio) {
+    return (
+      <div
+        role="dialog"
+        aria-label="Aviso de cookies"
+        className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:max-w-md z-50 bg-slate-900 border border-slate-700 rounded-2xl p-5 shadow-2xl"
+      >
+        <p className="text-sm text-slate-200 leading-relaxed mb-4">
+          Usamos cookies de medición (Google Tag Manager y Google Analytics) para entender cómo se usa la web. Solo se
+          activan si aceptas. Más detalles en la{" "}
+          <PrivacyButton className="text-cyan-400 underline font-semibold">Política de Privacidad</PrivacyButton>.
+        </p>
+        {botones}
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-40 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
