@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 // Solicitud de eliminación de datos del titular.
-// No borra el registro: lo anonimiza (nombre y correo se reemplazan) y guarda
+// No borra el registro: lo anonimiza (nombre y correo se reemplazan, la consulta se vacía) y guarda
 // solo un hash SHA-256 del correo como constancia de que se hizo la solicitud.
 
 type Env = {
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
     await env.DB.batch([
       env.DB.prepare("INSERT INTO solicitudes_eliminacion (email_hash) VALUES (?)").bind(hash),
       env.DB.prepare(
-        "UPDATE leads SET nombre = '[ELIMINADO]', email = 'eliminado-' || id || '@invalid.local', anonimizado_en = datetime('now') WHERE lower(email) = ? AND anonimizado_en IS NULL",
+        "UPDATE leads SET nombre = '[ELIMINADO]', email = 'eliminado-' || id || '@invalid.local', consulta = NULL, anonimizado_en = datetime('now') WHERE lower(email) = ? AND anonimizado_en IS NULL",
       ).bind(email),
     ]);
   } catch (err) {

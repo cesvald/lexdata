@@ -42,7 +42,7 @@ export default function EliminarDatosPage() {
         <h1 className="text-3xl font-extrabold text-white mt-6 mb-3">Eliminar mis datos</h1>
         <p className="text-slate-300 text-sm leading-relaxed mb-6">
           Escribe el correo con el que te registraste. Reemplazaremos tu nombre y tu correo por datos
-          anónimos. Guardamos únicamente una huella criptográfica de tu correo, que no permite recuperarlo,
+          anónimos y borraremos el texto de tu consulta, si la dejaste. Guardamos únicamente una huella criptográfica de tu correo, que no permite recuperarlo,
           como constancia de que hiciste esta solicitud.
         </p>
 

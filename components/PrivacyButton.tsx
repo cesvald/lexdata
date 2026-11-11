@@ -48,17 +48,23 @@ export default function PrivacyButton({
             <div className="text-xs text-slate-300 space-y-3 leading-relaxed">
               <p>En cumplimiento de la LOPDP de Ecuador:</p>
               <p>
-                <strong>Responsable:</strong> Proyecto DataPrivo Ecuador.{" "}
-                {/* TODO: completar razón social / nombre legal, RUC y dirección */}
+                <strong>Responsable:</strong> Cesar Valderrama (DataPrivo), RUC 0152132494001. Dirección: Cuenca,
+                Ordeñez Lasso y Nogales.
               </p>
               <p>
-                <strong>Finalidad:</strong> Tratar los datos capturados únicamente para enviar
-                información del estado de desarrollo de la plataforma e invitaciones de acceso
-                anticipado.
+                <strong>Finalidad:</strong> Tratar los datos capturados para (1) responder tu consulta o tu
+                solicitud de información sobre el servicio, y (2) solo si marcas esa opción, enviarte el aviso de
+                apertura de cupos y novedades del servicio. Con los datos de actividad y nivel de interés también
+                evaluamos, de forma interna y agregada, la demanda del servicio.
               </p>
               <p>
-                <strong>Datos tratados:</strong> nombre, correo electrónico, tamaño de empresa y plan
-                de interés.
+                <strong>Base de legitimación:</strong> Tu consentimiento, que puedes retirar en cualquier momento,
+                y tu solicitud de información.
+              </p>
+              <p>
+                <strong>Datos tratados:</strong> nombre, correo electrónico, empresa u organización, actividad
+                elegida, nivel de interés y el texto de tu consulta. Te pedimos no incluir en la consulta datos
+                personales de terceros ni información sensible.
               </p>
               <p>
                 <strong>Conservación:</strong> Conservamos tus datos hasta que solicites su eliminación.
@@ -95,7 +101,7 @@ export default function PrivacyButton({
               </p>
               <p>
                 <strong>Carácter voluntario:</strong> Entregar estos datos es voluntario. Sin ellos no podemos
-                enviarte la información de acceso anticipado.
+                responder tu consulta ni enviarte el aviso de apertura.
               </p>
             </div>
             <button

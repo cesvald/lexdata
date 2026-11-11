@@ -9,17 +9,17 @@ const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains", 
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "DataPrivo - Protección de datos personales para pymes en Ecuador",
+  title: "DataPrivo - Delegado de Protección de Datos (DPD) externo en Ecuador",
   description:
-    "Evalúa gratis el riesgo de tu pyme frente a la LOPDP Ecuador. Recibe políticas de privacidad y registro de tratamientos personalizados, y conoce si necesitas un DPO.",
+    "Servicio de Delegado de Protección de Datos externo para organizaciones obligadas por la LOPDP en Ecuador: designación, informe de cumplimiento y plazos vigilados cada mes. Precios de referencia y cupos limitados.",
   keywords: [
     "LOPDP Ecuador",
     "protección de datos personales Ecuador",
-    "políticas de privacidad Ecuador",
-    "registro de tratamientos",
-    "DPO Ecuador",
     "delegado de protección de datos Ecuador",
-    "pymes Ecuador",
+    "DPD externo Ecuador",
+    "DPO Ecuador",
+    "designar delegado de protección de datos",
+    "SPDP",
   ],
 };
 

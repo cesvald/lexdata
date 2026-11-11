@@ -1,40 +1,47 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CheckCircle2, Loader2, Lock, MessageCircle, X } from "lucide-react";
+import { CheckCircle2, Loader2, Send, X } from "lucide-react";
 import PrivacyButton from "./PrivacyButton";
 import { track } from "@/lib/analytics";
+import { ACTIVIDADES, MAX_CONSULTA } from "@/lib/lead";
 
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "";
-
-const SIZES = ["1-10", "11-50", "50+"];
-const PLANS = [
-  { value: "Autogestión guiada", price: "$20 / mes", key: "auto" },
-  { value: "Revisión de documentos por DPO", price: "$300 único + $20 / mes", key: "revision" },
-  { value: "DPO como servicio", price: "$500 / mes + $20 / mes", key: "dpo" },
-  { value: "Evaluación gratuita", price: "Gratis", key: "free" },
-  { value: "Aún no sé", price: "", key: "unknown" },
+// Los precios se muestran en la página (app/page.tsx); aquí solo el resumen de cada nivel.
+const NIVELES = [
+  { value: "Base", price: "$200 / mes" },
+  { value: "Estándar", price: "$400 / mes" },
+  { value: "Complejo", price: "desde $800 / mes" },
+  { value: "Aún no sé", price: "" },
 ];
 
 export default function LeadForm() {
-  const [plan, setPlan] = useState("");
+  const [nivel, setNivel] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
   const [error, setError] = useState("");
 
+  // Los botones de cada nivel de la página preseleccionan el nivel en el formulario.
   useEffect(() => {
-    const onPlan = (e: Event) => {
-      const key = (e as CustomEvent<string>).detail;
-      const p = PLANS.find((x) => x.key === key);
-      if (p) setPlan(p.value);
+    const onNivel = (e: Event) => {
+      const value = (e as CustomEvent<string>).detail;
+      if (NIVELES.some((n) => n.value === value)) setNivel(value);
     };
-    window.addEventListener("lopdp:plan", onPlan);
-    return () => window.removeEventListener("lopdp:plan", onPlan);
+    window.addEventListener("dpd:nivel", onNivel);
+    return () => window.removeEventListener("dpd:nivel", onNivel);
   }, []);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const fd = new FormData(form);
+    const avisos = fd.get("avisos") === "on";
+    const consulta = String(fd.get("consulta") ?? "").trim();
+
+    if (!avisos && !consulta) {
+      setError("Marca el aviso de apertura o escribe tu consulta.");
+      setStatus("error");
+      return;
+    }
+
     setStatus("sending");
     setError("");
     try {
@@ -45,8 +52,10 @@ export default function LeadForm() {
           nombre: fd.get("nombre"),
           empresa: fd.get("empresa"),
           email: fd.get("email"),
-          tamano: fd.get("tamano"),
-          interes: fd.get("interes"),
+          actividad: fd.get("actividad"),
+          nivel: fd.get("nivel"),
+          avisos,
+          consulta,
           consentimiento: fd.get("consentimiento") === "on",
           website: fd.get("website"), // honeypot
         }),
@@ -54,8 +63,9 @@ export default function LeadForm() {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || "No pudimos enviar tu registro.");
       form.reset();
-      track("generate_lead", { interes: String(fd.get("interes") ?? "") });
-      setPlan("");
+      // Sin datos personales: solo el nivel y qué pidió (no su contenido).
+      track("generate_lead", { nivel: String(fd.get("nivel") ?? ""), aviso: avisos, consulta: consulta.length > 0 });
+      setNivel("");
       setStatus("ok");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error inesperado.");
@@ -89,7 +99,7 @@ export default function LeadForm() {
 
         <div>
           <label htmlFor="empresa" className="block text-sm font-bold text-slate-200 mb-2">
-            Empresa o negocio *
+            Empresa u organización *
           </label>
           <input id="empresa" name="empresa" required maxLength={150} placeholder="Nombre comercial o razón social" className={input} />
         </div>
@@ -109,43 +119,48 @@ export default function LeadForm() {
           />
         </div>
 
-        <fieldset>
-          <legend className="block text-sm font-bold text-slate-200 mb-2">Tamaño de empresa *</legend>
-          <div className="grid grid-cols-3 gap-3">
-            {SIZES.map((s, i) => (
-              <label key={s} className="cursor-pointer">
-                <input type="radio" name="tamano" value={s} required={i === 0} className="peer sr-only" />
-                <div className="p-3 text-center rounded-xl border border-slate-800 bg-slate-950 peer-checked:border-cyan-500 peer-checked:bg-cyan-950 peer-checked:text-cyan-300 peer-focus-visible:ring-2 peer-focus-visible:ring-cyan-500 font-semibold text-sm transition hover:bg-slate-800">
-                  {s}
-                </div>
-              </label>
+        <div>
+          <label htmlFor="actividad" className="block text-sm font-bold text-slate-200 mb-2">
+            ¿A qué se dedica tu organización? *
+          </label>
+          <select id="actividad" name="actividad" required defaultValue="" className={input}>
+            <option value="" disabled>
+              Elige la opción más cercana
+            </option>
+            {ACTIVIDADES.map((a) => (
+              <option key={a} value={a}>
+                {a}
+              </option>
             ))}
-          </div>
-        </fieldset>
+          </select>
+          <p className="text-xs text-slate-500 mt-2">
+            Solo para saber si tu actividad está entre las que la SPDP obliga a designar DPD. No es un diagnóstico.
+          </p>
+        </div>
 
         <fieldset>
-          <legend className="block text-sm font-bold text-slate-200 mb-2">¿Qué plan te interesa más? *</legend>
+          <legend className="block text-sm font-bold text-slate-200 mb-2">¿Qué nivel se parece más a tu caso? *</legend>
           <div className="space-y-3">
-            {PLANS.map((p, i) => (
+            {NIVELES.map((n, i) => (
               <label
-                key={p.key}
+                key={n.value}
                 className="flex items-center justify-between p-4 rounded-xl border border-slate-800 bg-slate-950 hover:bg-slate-800 cursor-pointer transition"
               >
                 <div className="flex items-center gap-3">
                   <input
                     type="radio"
-                    name="interes"
-                    value={p.value}
+                    name="nivel"
+                    value={n.value}
                     required={i === 0}
-                    checked={plan === p.value}
-                    onChange={() => setPlan(p.value)}
+                    checked={nivel === n.value}
+                    onChange={() => setNivel(n.value)}
                     className="w-4 h-4 accent-cyan-500"
                   />
-                  <span className="text-sm font-medium text-slate-200">{p.value}</span>
+                  <span className="text-sm font-medium text-slate-200">{n.value}</span>
                 </div>
-                {p.price && (
+                {n.price && (
                   <span className="text-xs font-mono font-semibold text-cyan-400 bg-cyan-950 border border-cyan-800 px-2.5 py-1 rounded-md">
-                    {p.price}
+                    {n.price}
                   </span>
                 )}
               </label>
@@ -153,14 +168,40 @@ export default function LeadForm() {
           </div>
         </fieldset>
 
+        <div className="space-y-4 border-t border-slate-800 pt-6">
+          <p className="text-sm font-bold text-slate-200">¿Qué quieres de nosotros? (elige al menos una)</p>
+
+          <label className="flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" name="avisos" className="mt-1 w-4 h-4 accent-cyan-500 shrink-0" />
+            <span className="text-sm text-slate-300 leading-normal">
+              Quiero que me avisen cuando abran los cupos del servicio.
+            </span>
+          </label>
+
+          <div>
+            <label htmlFor="consulta" className="block text-sm text-slate-300 mb-2">
+              Tengo una consulta o quiero más información:
+            </label>
+            <textarea
+              id="consulta"
+              name="consulta"
+              rows={4}
+              maxLength={MAX_CONSULTA}
+              placeholder="Cuéntanos qué quieres saber. No incluyas datos personales de terceros ni información sensible."
+              className={input}
+            />
+          </div>
+        </div>
+
         <label className="flex items-start gap-3 cursor-pointer pt-2">
           <input type="checkbox" name="consentimiento" required className="mt-1 w-4 h-4 accent-cyan-500 shrink-0" />
           <span className="text-xs text-slate-400 leading-normal">
-            Acepto el tratamiento de mis datos según la{" "}
+            He leído la{" "}
             <PrivacyButton className="text-cyan-400 underline font-semibold hover:text-cyan-300">
               Política de Privacidad
             </PrivacyButton>{" "}
-            para recibir información sobre este servicio.
+            y acepto que DataPrivo trate mis datos para responder mi consulta y, si lo marqué arriba, enviarme el
+            aviso de apertura. *
           </span>
         </label>
 
@@ -175,9 +216,10 @@ export default function LeadForm() {
           disabled={status === "sending"}
           className="w-full py-4 bg-sky-600 hover:bg-sky-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-lg rounded-xl shadow-lg shadow-sky-600/20 transition duration-200 flex items-center justify-center gap-2"
         >
-          {status === "sending" ? <Loader2 className="w-5 h-5 animate-spin" /> : <Lock className="w-5 h-5" />}
-          <span>{status === "sending" ? "Enviando..." : "Reservar mi lugar"}</span>
+          {status === "sending" ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+          <span>{status === "sending" ? "Enviando..." : "Enviar"}</span>
         </button>
+        <p className="text-xs text-slate-500 text-center">Te escribiremos a la brevedad al correo que dejaste.</p>
       </form>
 
       {status === "ok" && (
@@ -198,32 +240,15 @@ export default function LeadForm() {
               <CheckCircle2 className="w-10 h-10" />
             </div>
             <h3 className="text-2xl font-extrabold text-white text-center mb-3">
-              ¡Gracias! Te escribiremos cuando abramos los primeros accesos.
+              ¡Gracias! Recibimos tu registro.
             </h3>
-
-            {WHATSAPP_NUMBER && (
-              <div className="bg-slate-950 border border-cyan-800 rounded-xl p-5 my-6 text-left">
-                <p className="text-sm text-cyan-200 leading-relaxed mb-4">
-                  Si quieres ayudarnos a validar la idea, ¿podemos hacerte 3 preguntas por WhatsApp o
-                  videollamada (10 minutos)?
-                </p>
-                <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-                    "Hola, registré mi empresa en DataPrivo y puedo ayudarles con las 3 preguntas.",
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm rounded-xl flex items-center justify-center gap-2 transition"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                  <span>Sí, agendar</span>
-                </a>
-              </div>
-            )}
-
+            <p className="text-sm text-slate-300 text-center leading-relaxed">
+              Te escribiremos a la brevedad al correo que dejaste. Si pediste el aviso de apertura, te avisaremos
+              cuando abramos los primeros cupos.
+            </p>
             <button
               onClick={() => setStatus("idle")}
-              className="w-full mt-4 py-2.5 border border-slate-700 text-slate-300 font-semibold text-sm rounded-xl hover:bg-slate-800 transition"
+              className="w-full mt-6 py-2.5 border border-slate-700 text-slate-300 font-semibold text-sm rounded-xl hover:bg-slate-800 transition"
             >
               Cerrar ventana
             </button>
