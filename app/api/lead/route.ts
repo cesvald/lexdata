@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { parseLead, type Lead } from "@/lib/lead";
 
 // Bindings y variables (ver wrangler.jsonc):
 //   DB               (D1)       -> base donde se guardan los leads (obligatorio)
@@ -16,31 +17,34 @@ type Env = {
   LEAD_FROM_EMAIL?: string;
 };
 
-const SIZES = ["1-10", "11-50", "50+"];
-const PLANS = ["Autogestión guiada", "Revisión de documentos por DPO", "DPO como servicio", "Evaluación gratuita", "Aún no sé"];
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-const oneLine = (s: string) => s.replace(/[\r\n]+/g, " ").trim();
 
-async function notifyByEmail(
-  env: Env,
-  lead: { nombre: string; empresa: string; email: string; tamano: string; interes: string; fecha: string },
-) {
+// Qué pidió la persona, en una frase corta para el asunto y el cuerpo del aviso.
+function pedido(lead: Lead) {
+  const partes = [];
+  if (lead.avisos) partes.push("aviso de apertura");
+  if (lead.consulta) partes.push("consulta");
+  return partes.join(" + ");
+}
+
+async function notifyByEmail(env: Env, lead: Lead, fecha: string) {
   if (!env.RESEND_API_KEY || !env.LEAD_TO_EMAIL || !env.LEAD_FROM_EMAIL) return;
-  const { nombre, empresa, email, tamano, interes, fecha } = lead;
+  const { nombre, empresa, email, actividad, nivel, consulta } = lead;
+  const queQuiere = pedido(lead);
   const html = `
-    <h2>Nuevo registro de acceso anticipado</h2>
+    <h2>Nuevo registro de interés</h2>
     <table cellpadding="6" style="border-collapse:collapse">
       <tr><td><b>Nombre</b></td><td>${esc(nombre)}</td></tr>
       <tr><td><b>Empresa</b></td><td>${esc(empresa)}</td></tr>
       <tr><td><b>Correo</b></td><td>${esc(email)}</td></tr>
-      <tr><td><b>Tamaño</b></td><td>${esc(tamano)}</td></tr>
-      <tr><td><b>Plan de interés</b></td><td>${esc(interes)}</td></tr>
+      <tr><td><b>Actividad</b></td><td>${esc(actividad)}</td></tr>
+      <tr><td><b>Nivel de interés</b></td><td>${esc(nivel)}</td></tr>
+      <tr><td><b>Pidió</b></td><td>${esc(queQuiere)}</td></tr>
+      <tr><td><b>Consulta</b></td><td>${esc(consulta || "(sin consulta)").replace(/\n/g, "<br>")}</td></tr>
       <tr><td><b>Fecha (Ecuador)</b></td><td>${esc(fecha)}</td></tr>
     </table>`;
-  const text = `Nuevo registro\nNombre: ${nombre}\nEmpresa: ${empresa}\nCorreo: ${email}\nTamaño: ${tamano}\nPlan: ${interes}\nFecha: ${fecha}`;
+  const text = `Nuevo registro\nNombre: ${nombre}\nEmpresa: ${empresa}\nCorreo: ${email}\nActividad: ${actividad}\nNivel: ${nivel}\nPidió: ${queQuiere}\nConsulta: ${consulta || "(sin consulta)"}\nFecha: ${fecha}`;
   try {
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -49,7 +53,7 @@ async function notifyByEmail(
         from: env.LEAD_FROM_EMAIL,
         to: [env.LEAD_TO_EMAIL],
         reply_to: email,
-        subject: `Nuevo lead DataPrivo: ${empresa} - ${nombre} (${interes})`,
+        subject: `Nuevo lead DataPrivo: ${empresa} - ${nombre} (${queQuiere})`.replace(/[\r\n]+/g, " "),
         html,
         text,
       }),
@@ -73,27 +77,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  const nombre = typeof body.nombre === "string" ? oneLine(body.nombre).slice(0, 100) : "";
-  const empresa = typeof body.empresa === "string" ? oneLine(body.empresa).slice(0, 150) : "";
-  const email = typeof body.email === "string" ? oneLine(body.email).slice(0, 200) : "";
-  const tamano = typeof body.tamano === "string" ? body.tamano : "";
-  const interes = typeof body.interes === "string" ? body.interes : "";
-  const consentimiento = body.consentimiento === true;
-
-  if (!nombre || !empresa || !EMAIL_RE.test(email) || !SIZES.includes(tamano) || !PLANS.includes(interes)) {
-    return NextResponse.json({ error: "Revisa los datos del formulario." }, { status: 400 });
+  const parsed = parseLead(body);
+  if (!parsed.ok) {
+    return NextResponse.json({ error: parsed.error }, { status: 400 });
   }
-  if (!consentimiento) {
-    return NextResponse.json({ error: "Debes aceptar la Política de Privacidad." }, { status: 400 });
-  }
+  const { lead } = parsed;
 
   const { env } = (await getCloudflareContext({ async: true })) as unknown as { env: Env };
 
   try {
+    // `tamano` sigue siendo NOT NULL en la tabla original; ya no se pregunta y se guarda vacío.
+    // `interes` guarda el nivel de servicio que le interesa.
     await env.DB.prepare(
-      "INSERT INTO leads (nombre, empresa, email, tamano, interes, consentimiento) VALUES (?, ?, ?, ?, ?, 1)",
+      "INSERT INTO leads (nombre, empresa, email, tamano, interes, actividad, consulta, acepta_avisos, consentimiento) VALUES (?, ?, ?, '', ?, ?, ?, ?, 1)",
     )
-      .bind(nombre, empresa, email, tamano, interes)
+      .bind(lead.nombre, lead.empresa, lead.email, lead.nivel, lead.actividad, lead.consulta, lead.avisos ? 1 : 0)
       .run();
   } catch (err) {
     console.error("D1 insert failed", err);
@@ -101,7 +99,7 @@ export async function POST(req: Request) {
   }
 
   const fecha = new Date().toLocaleString("es-EC", { timeZone: "America/Guayaquil" });
-  await notifyByEmail(env, { nombre, empresa, email, tamano, interes, fecha });
+  await notifyByEmail(env, lead, fecha);
 
   return NextResponse.json({ ok: true });
 }

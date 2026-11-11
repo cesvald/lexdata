@@ -17,8 +17,10 @@ const validBody = {
   nombre: "Ana Pérez",
   empresa: "Panadería Los Andes",
   email: "ana@empresa.ec",
-  tamano: "11-50",
-  interes: "Autogestión guiada",
+  actividad: "Salud (historias clínicas)",
+  nivel: "Estándar",
+  consulta: "¿Cómo se define el nivel?",
+  avisos: true,
   consentimiento: true,
   website: "",
 };
@@ -63,7 +65,15 @@ describe("POST /api/lead", () => {
     expect(state.bindArgs).toHaveLength(1);
     const [sql, ...args] = state.bindArgs[0];
     expect(String(sql)).toContain("INSERT INTO leads");
-    expect(args).toEqual(["Ana Pérez", "Panadería Los Andes", "ana@empresa.ec", "11-50", "Autogestión guiada"]);
+    expect(args).toEqual([
+      "Ana Pérez",
+      "Panadería Los Andes",
+      "ana@empresa.ec",
+      "Estándar",
+      "Salud (historias clínicas)",
+      "¿Cómo se define el nivel?",
+      1,
+    ]);
   });
 
   it("rechaza un registro sin nombre de empresa", async () => {
@@ -78,14 +88,14 @@ describe("POST /api/lead", () => {
     expect(state.bindArgs).toHaveLength(0);
   });
 
-  it("rechaza un tamaño de empresa que no está en la lista", async () => {
-    const res = await POST(makeRequest({ ...validBody, tamano: "999" }));
+  it("rechaza una actividad que no está en la lista", async () => {
+    const res = await POST(makeRequest({ ...validBody, actividad: "Cualquier cosa" }));
     expect(res.status).toBe(400);
     expect(state.bindArgs).toHaveLength(0);
   });
 
-  it("rechaza un plan que no existe", async () => {
-    const res = await POST(makeRequest({ ...validBody, interes: "Plan gratis infinito" }));
+  it("rechaza un nivel que no existe", async () => {
+    const res = await POST(makeRequest({ ...validBody, nivel: "Plan gratis infinito" }));
     expect(res.status).toBe(400);
   });
 
@@ -95,24 +105,40 @@ describe("POST /api/lead", () => {
     expect(state.bindArgs).toHaveLength(0);
   });
 
-  it("acepta cada uno de los planes ofrecidos", async () => {
-    const planes = [
-      "Autogestión guiada",
-      "Revisión de documentos por DPO",
-      "DPO como servicio",
-      "Evaluación gratuita",
-      "Aún no sé",
-    ];
-    for (const interes of planes) {
-      const res = await POST(makeRequest({ ...validBody, interes }));
-      expect(res.status, interes).toBe(200);
+  it("acepta cada uno de los niveles ofrecidos", async () => {
+    const niveles = ["Base", "Estándar", "Complejo", "Aún no sé"];
+    for (const nivel of niveles) {
+      const res = await POST(makeRequest({ ...validBody, nivel }));
+      expect(res.status, nivel).toBe(200);
     }
-    expect(state.bindArgs).toHaveLength(planes.length);
+    expect(state.bindArgs).toHaveLength(niveles.length);
   });
 
-  it("rechaza el nombre antiguo del plan de DPO que ya no se ofrece", async () => {
-    const res = await POST(makeRequest({ ...validBody, interes: "Consultoría y aprobación por DPO" }));
+  it("acepta solo el aviso de apertura, sin consulta", async () => {
+    const res = await POST(makeRequest({ ...validBody, consulta: "", avisos: true }));
+    expect(res.status).toBe(200);
+    const [, ...args] = state.bindArgs[0];
+    expect(args.slice(-2)).toEqual(["", 1]);
+  });
+
+  it("acepta solo una consulta, sin aviso de apertura", async () => {
+    const res = await POST(makeRequest({ ...validBody, consulta: "Dudas sobre mi caso", avisos: false }));
+    expect(res.status).toBe(200);
+    const [, ...args] = state.bindArgs[0];
+    expect(args.slice(-2)).toEqual(["Dudas sobre mi caso", 0]);
+  });
+
+  it("exige aviso de apertura o consulta (al menos uno)", async () => {
+    const res = await POST(makeRequest({ ...validBody, consulta: "   ", avisos: false }));
     expect(res.status).toBe(400);
+    expect(state.bindArgs).toHaveLength(0);
+  });
+
+  it("recorta la consulta a 1000 caracteres", async () => {
+    const res = await POST(makeRequest({ ...validBody, consulta: "a".repeat(1500) }));
+    expect(res.status).toBe(200);
+    const [, ...args] = state.bindArgs[0];
+    expect(String(args[5])).toHaveLength(1000);
   });
 
   it("rechaza nombre vacío o solo espacios", async () => {
@@ -172,6 +198,7 @@ describe("POST /api/lead", () => {
     expect(payload.reply_to).toBe("ana@empresa.ec");
     expect(payload.to).toEqual(["dueno@dataprivo.com"]);
     expect(payload.subject).toContain("Ana Pérez");
+    expect(payload.text).toContain("¿Cómo se define el nivel?");
   });
 
   it("si el envío de correo falla, el registro igual queda guardado", async () => {
@@ -199,9 +226,10 @@ describe("POST /api/lead", () => {
     const fetchSpy = vi.fn().mockResolvedValue(new Response("{}", { status: 200 }));
     vi.stubGlobal("fetch", fetchSpy);
 
-    await POST(makeRequest({ ...validBody, nombre: "<script>alert(1)</script>" }));
+    await POST(makeRequest({ ...validBody, nombre: "<script>alert(1)</script>", consulta: "<img src=x onerror=1>" }));
     const payload = JSON.parse((fetchSpy.mock.calls[0][1] as RequestInit).body as string);
     expect(payload.html).not.toContain("<script>");
     expect(payload.html).toContain("&lt;script&gt;");
+    expect(payload.html).not.toContain("<img");
   });
 });

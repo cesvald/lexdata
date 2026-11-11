@@ -1,6 +1,6 @@
 # DataPrivo — Next.js en Cloudflare Workers
 
-Landing + quiz DPO + formulario de leads que envía un correo a tu bandeja.
+Landing de la oferta de DPD externo (niveles y precios de referencia) + formulario de interés (aviso de apertura y consultas) que guarda en D1 y envía un correo a tu bandeja.
 Stack: Next.js 15 (App Router) + Tailwind 4 + OpenNext para Cloudflare.
 
 ## 1. Correo (API key)
@@ -34,9 +34,16 @@ npm run deploy
 
 Para tu dominio: Cloudflare → Workers & Pages → lexdata → Settings → Domains & Routes.
 
-## 4. Pendientes antes de lanzar
+## 4. Antes de fusionar la rama de la oferta de DPD
 
-- `NEXT_PUBLIC_WHATSAPP_NUMBER` (ej. `5939XXXXXXXX`) como variable de build para mostrar el botón de WhatsApp; si no se define, el botón se oculta.
-- Completar razón social, RUC y dirección en `components/PrivacyButton.tsx`.
-- Verificar el correo `contacto@dataprivo.com`.
-- Respaldar con fuentes oficiales la sanción a LIGAPRO/FEF y el "1% del volumen de negocio".
+1. **Migración de D1 (obligatoria, antes de desplegar):** el formulario nuevo guarda `actividad`, `consulta` y
+   `acepta_avisos`. Ejecuta los tres `ALTER TABLE` que están al final de `schema.sql` en remoto:
+   `npx wrangler d1 execute dataprivo-leads --remote --command "ALTER TABLE leads ADD COLUMN actividad TEXT"` (y los otros dos).
+   Agregar columnas no rompe el código que está en producción.
+2. `npm install && npm test` en tu equipo (en el entorno de trabajo no se pudieron instalar dependencias).
+3. Completar nombre legal y dirección del titular del RUC en `components/PrivacyButton.tsx` (el RUC ya está).
+4. Verificar el correo `contacto@dataprivo.com`.
+5. En GTM, crear los disparadores de `clic_cta_hero`, `clic_nivel` y `generate_lead` (parámetros `nivel`, `aviso`, `consulta`).
+
+Pendiente, sin cambios: el quiz (`components/Quiz.tsx`) quedó fuera de la página hasta rehacerlo con criterio legal;
+`NEXT_PUBLIC_WHATSAPP_NUMBER` ya no se usa.
