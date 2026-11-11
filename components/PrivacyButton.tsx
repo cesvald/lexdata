@@ -54,7 +54,7 @@ export default function PrivacyButton({
               <p>
                 <strong>Finalidad:</strong> Tratar los datos capturados para (1) responder tu consulta o tu
                 solicitud de información sobre el servicio, y (2) solo si marcas esa opción, enviarte el aviso de
-                apertura de cupos y novedades del servicio. Con los datos de actividad y nivel de interés también
+                apertura del servicio y novedades. Con los datos de actividad y nivel de interés también
                 evaluamos, de forma interna y agregada, la demanda del servicio.
               </p>
               <p>

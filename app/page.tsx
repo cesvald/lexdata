@@ -16,7 +16,7 @@ import NivelCta from "@/components/NivelCta";
 import { ACTIVIDADES } from "@/lib/lead";
 
 // Niveles por complejidad del tratamiento, no por número de empleados.
-// Precios de referencia del piloto, en USD; se confirman en la propuesta según el caso.
+// Precios de referencia, en USD; se confirman en la propuesta según el caso.
 const NIVELES = [
   {
     nivel: "Base" as const,
@@ -122,7 +122,7 @@ export default function Home() {
             <div className="text-center max-w-4xl mx-auto">
               <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-slate-800/90 border border-cyan-500/30 text-cyan-300 text-xs sm:text-sm font-semibold mb-6 shadow-inner">
                 <span className="text-base">🇪🇨</span>
-                <span>Próximamente: abrimos cupos del piloto</span>
+                <span>Próximamente: apertura del servicio</span>
                 <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
               </div>
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-6">
@@ -345,9 +345,9 @@ export default function Home() {
               <p className="text-xs text-slate-400 flex items-start sm:items-center justify-center gap-2 text-left sm:text-center">
                 <Info className="w-4 h-4 text-cyan-400 shrink-0" />
                 <span>
-                  Precios de referencia del piloto, en dólares, y se confirman en la propuesta según tu caso. Las
+                  Precios de referencia, en dólares, que se confirman en la propuesta según tu caso. Las
                   horas adicionales y los eventos (brechas, inspecciones, capacitaciones) se cotizan aparte. Aún no
-                  estamos cobrando: abrimos cupos limitados.
+                  hay nada que pagar: el servicio todavía no está abierto.
                 </span>
               </p>
             </div>
@@ -365,7 +365,7 @@ export default function Home() {
                 Deja tus datos y te escribimos
               </h2>
               <p className="text-slate-400 text-sm sm:text-base mt-2">
-                Para recibir el aviso cuando abramos cupos o para consultarnos sobre el servicio. Sin compromiso.
+                Para recibir el aviso cuando abramos el servicio o para consultarnos sobre él. Sin compromiso.
               </p>
             </div>
             <LeadForm />
