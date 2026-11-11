@@ -174,7 +174,7 @@ export default function LeadForm() {
           <label className="flex items-start gap-3 cursor-pointer">
             <input type="checkbox" name="avisos" className="mt-1 w-4 h-4 accent-cyan-500 shrink-0" />
             <span className="text-sm text-slate-300 leading-normal">
-              Quiero que me avisen cuando abran los cupos del servicio.
+              Quiero que me avisen cuando abran el servicio.
             </span>
           </label>
 
@@ -244,7 +244,7 @@ export default function LeadForm() {
             </h3>
             <p className="text-sm text-slate-300 text-center leading-relaxed">
               Te escribiremos a la brevedad al correo que dejaste. Si pediste el aviso de apertura, te avisaremos
-              cuando abramos los primeros cupos.
+              cuando abramos el servicio.
             </p>
             <button
               onClick={() => setStatus("idle")}

@@ -40,11 +40,11 @@ const FAQ = [
   },
   {
     q: "¿Cuánto cuesta?",
-    a: "Los precios de referencia del piloto, en dólares, son: nivel Base $200 al mes (5 horas) con arranque de $600; nivel Estándar $400 al mes (10 horas) con arranque de $1.000; y nivel Complejo desde $800 al mes (20 horas o más) con arranque cotizado. El nivel depende de la complejidad del tratamiento, no del número de empleados. Se confirman en una propuesta según tu caso, y las horas adicionales y los eventos se cotizan aparte.",
+    a: "Los precios de referencia, en dólares, son: nivel Base $200 al mes (5 horas) con arranque de $600; nivel Estándar $400 al mes (10 horas) con arranque de $1.000; y nivel Complejo desde $800 al mes (20 horas o más) con arranque cotizado. El nivel depende de la complejidad del tratamiento, no del número de empleados. Se confirman en una propuesta según tu caso, y las horas adicionales y los eventos se cotizan aparte.",
   },
   {
     q: "¿El servicio ya está disponible?",
-    a: "Estamos abriendo cupos limitados del piloto. Puedes dejar tus datos para que te avisemos cuando abramos, o escribirnos una consulta; te respondemos a la brevedad. Dejar tus datos no te compromete a nada.",
+    a: "Todavía no: el servicio abre próximamente y la atención será gradual, porque cada organización requiere horas dedicadas de su DPD. Puedes dejar tus datos para que te avisemos cuando abramos, o escribirnos una consulta; te respondemos a la brevedad. Dejar tus datos no te compromete a nada.",
   },
   {
     q: "¿Qué pasa si una organización incumple la LOPDP?",

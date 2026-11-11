@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "DataPrivo - Delegado de Protección de Datos (DPD) externo en Ecuador",
   description:
-    "Servicio de Delegado de Protección de Datos externo para organizaciones obligadas por la LOPDP en Ecuador: designación, informe de cumplimiento y plazos vigilados cada mes. Precios de referencia y cupos limitados.",
+    "Servicio de Delegado de Protección de Datos externo para organizaciones obligadas por la LOPDP en Ecuador: designación, informe de cumplimiento y plazos vigilados cada mes. Próxima apertura; precios de referencia.",
   keywords: [
     "LOPDP Ecuador",
     "protección de datos personales Ecuador",
