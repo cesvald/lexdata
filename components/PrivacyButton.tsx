@@ -48,8 +48,8 @@ export default function PrivacyButton({
             <div className="text-xs text-slate-300 space-y-3 leading-relaxed">
               <p>En cumplimiento de la LOPDP de Ecuador:</p>
               <p>
-                <strong>Responsable:</strong> DataPrivo, titular del RUC 0152132494001.{" "}
-                {/* TODO: agregar nombre legal completo y dirección del titular del RUC */}
+                <strong>Responsable:</strong> Cesar Valderrama (DataPrivo), RUC 0152132494001. Dirección: Cuenca,
+                Ordeñez Lasso y Nogales.
               </p>
               <p>
                 <strong>Finalidad:</strong> Tratar los datos capturados para (1) responder tu consulta o tu

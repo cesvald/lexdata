@@ -41,7 +41,7 @@ Para tu dominio: Cloudflare → Workers & Pages → lexdata → Settings → Dom
    `npx wrangler d1 execute dataprivo-leads --remote --command "ALTER TABLE leads ADD COLUMN actividad TEXT"` (y los otros dos).
    Agregar columnas no rompe el código que está en producción.
 2. `npm install && npm test` en tu equipo (en el entorno de trabajo no se pudieron instalar dependencias).
-3. Completar nombre legal y dirección del titular del RUC en `components/PrivacyButton.tsx` (el RUC ya está).
+3. Confirmar que el nombre y la dirección del responsable en `components/PrivacyButton.tsx` coinciden con el RUC.
 4. Verificar el correo `contacto@dataprivo.com`.
 5. En GTM, crear los disparadores de `clic_cta_hero`, `clic_nivel` y `generate_lead` (parámetros `nivel`, `aviso`, `consulta`).
 
